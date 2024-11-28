@@ -1,0 +1,1 @@
+export const BACKEND_URL = "https://medium.bhavyaaes.workers.dev/api/v1"
