@@ -13,21 +13,26 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
         password: ""
     });
 
-    const sendRequest = async() => {
+    const sendRequest = async () => {
         try {
             const response = await axios.post(`${BACKEND_URL}/user/${type === "signup" ? "signup" : "signin"}`, postInputs);
-            const jwt = response.data;
-            localStorage.setItem("token", jwt);
+            const jwt_token = response.data.jwt;
+            localStorage.setItem("token", jwt_token);
+            console.log("token",jwt_token)
             toast.success("Signed up successfully")
             setTimeout(() => {
-                navigate("/blogs");
-            }, 3000);
-        } catch(e) {
+                if (type === "signin") {
+                    navigate("/blogs");
+                } else {
+                    navigate("/signin");
+                }
+            }, 2000);
+        } catch (e) {
             console.error(e);
             toast.error("Error while signing up")
         }
     }
-    
+
     return <div className="h-screen flex justify-center flex-col">
         <div className="flex justify-center">
             <div>
@@ -36,7 +41,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                         Create an account
                     </div>
                     <div className="text-slate-500">
-                        {type === "signin" ? "Don't have an account?" : "Already have an account?" }
+                        {type === "signin" ? "Don't have an account?" : "Already have an account?"}
                         <Link className="pl-2 underline" to={type === "signin" ? "/signup" : "/signin"}>
                             {type === "signin" ? "Sign up" : "Sign in"}
                         </Link>
@@ -65,17 +70,17 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                 </div>
             </div>
         </div>
-        <ToastContainer 
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
         />
     </div>
 }

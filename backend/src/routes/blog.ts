@@ -16,22 +16,26 @@ export const blogRouter = new Hono<{
     }
 }>()
 
-blogRouter.use('/*', async (c, next) => {
-    const token = c.req.header('Authorization')
-    if (!token) {
-        c.status(401)
-        return c.json({ error: 'No Token' })
+blogRouter.use("/*", async (c, next) => {
+    const authHeader = c.req.header("authorization") || "";
+    try {
+        const user = await verify(authHeader, c.env.JWT_SECRET);
+        if (user) {
+            c.set("jwtPayload", { userId: user.id });
+            await next();
+        } else {
+            c.status(403);
+            return c.json({
+                message: "You are not logged in"
+            })
+        }
+    } catch(e) {
+        c.status(403);
+        return c.json({
+            message: "You are not logged in"
+        })
     }
-    // const jwt = token.split(' ')[1]
-    const user = await verify(token, c.env.JWT_SECRET)
-    if (user) {
-        c.set("jwtPayload", { userId: user.id });
-        await next()
-    } else {
-        c.status(403)
-        return c.json({ error: 'User not logged in.' })
-    }
-})
+});
 
 blogRouter.post('/', async (c) => {
 
@@ -95,7 +99,19 @@ blogRouter.get('/bulk', async (c) => {
     }).$extends(withAccelerate())
 
     try {
-        const blog = await prisma.blog.findMany({});
+        const blog = await prisma.blog.findMany({
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                createdAt: true,
+                author: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        });
         console.log(blog)
         return c.json({ blog })
     } catch (error) {
