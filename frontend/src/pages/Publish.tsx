@@ -49,29 +49,36 @@ export const Publish = () => {
 
                     <button
                         onClick={async () => {
-                            if (title || description === "") {
+                            console.log("onClick");
+                            if (title.trim() === "" || description.trim() === "") {
                                 toast.error("Title or Description cannot be empty");
                                 return;
                             }
-                            const response = await axios.post(
-                                `${BACKEND_URL}/blog`,
-                                {
-                                    title,
-                                    content: description,
-                                },
-                                {
-                                    headers: {
-                                        Authorization: localStorage.getItem("token"),
+                            try {
+                                const response = await axios.post(
+                                    `${BACKEND_URL}/blog`,
+                                    {
+                                        title,
+                                        content: description,
                                     },
-                                }
-                            );
-                            navigate(`/blog/${response.data.id}`);
+                                    {
+                                        headers: {
+                                            Authorization: localStorage.getItem("token"),
+                                        },
+                                    }
+                                );
+                                navigate(`/blog/${response.data.id}`);
+                            } catch (error) {
+                                console.error("Error publishing post:", error);
+                                toast.error("Failed to publish post");
+                            }
                         }}
                         type="submit"
                         className="mt-4 inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-green-700 hover:bg-green-800 rounded-lg focus:ring-4 focus:ring-green-200 dark:focus:ring-green-900"
                     >
                         Publish post
                     </button>
+
                 </div>
             </div>
         </div>
