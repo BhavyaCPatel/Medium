@@ -32,7 +32,7 @@ export const BlogCard = ({
             </div>
             <div className="text-md font-thin leading-relaxed" dangerouslySetInnerHTML={{ __html: content.slice(0,100) + "..." }} />
             <div className="text-slate-500 text-sm font-thin pt-4">
-                {`${Math.ceil(content.length / 100)} minute(s) read`}
+                {`${Math.ceil(content.length / 500)} minute(s) read`}
             </div>
         </div>
     </Link>
