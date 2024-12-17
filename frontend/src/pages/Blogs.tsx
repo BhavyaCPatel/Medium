@@ -1,15 +1,25 @@
+import { useEffect } from 'react';
 import { Appbar } from '../components/Appbar';
 import { BlogCard } from '../components/BlogCard';
 import { BlogSkeleton } from '../components/BlogSkeleton';
 import { useBlogs } from '../hooks';
+import { toast } from 'react-toastify';
+
 
 export const Blogs = () => {
-    const {loading, blogs} = useBlogs();
+    const { loading, blogs, error } = useBlogs();
+
+    useEffect(() => {
+        if (error) {
+            console.log("Triggering toast for error:", error);
+            toast.error(error)
+        }
+    }, [error]);
 
     if (loading) {
         return <div>
-            <Appbar /> 
-            <div  className="flex justify-center">
+            <Appbar />
+            <div className="flex justify-center">
                 <div>
                     <BlogSkeleton />
                     <BlogSkeleton />
@@ -20,10 +30,10 @@ export const Blogs = () => {
             </div>
         </div>
     }
-    
+
     return (
         <div>
-            <Appbar/>
+            <Appbar />
             <div className='flex justify-center mt-2'>
                 <div className=''>
                     {blogs.map((blog) => {
@@ -33,8 +43,9 @@ export const Blogs = () => {
                             day: 'numeric'
                         });
                         return <BlogCard
+                            key={blog.id}
                             id={blog.id}
-                            authorName={blog.author.name}
+                            authorName={blog.author.name || 'Anonymous'}
                             title={blog.title}
                             content={blog.content}
                             publishedDate={formattedDate}

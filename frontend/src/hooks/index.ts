@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 
-
 export interface Blog {
     "content": string;
     "title": string;
@@ -16,6 +15,7 @@ export interface Blog {
 export const useBlog = ({ id }: { id: string }) => {
     const [loading, setLoading] = useState(true);
     const [blog, setBlog] = useState<Blog>();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         axios.get(`${BACKEND_URL}/blog/${id}`, {
@@ -26,18 +26,25 @@ export const useBlog = ({ id }: { id: string }) => {
             .then(response => {
                 setBlog(response.data.blog);
                 setLoading(false);
+            }).catch(e => {
+                if (axios.isAxiosError(e) && e.response) {
+                    console.log(e.response.data.message);
+                    setError(e.response.data.message);
+                }
             })
     }, [id])
 
     return {
         loading,
-        blog
+        blog,
+        error
     }
 
 }
 export const useBlogs = () => {
     const [loading, setLoading] = useState(true);
     const [blogs, setBlogs] = useState<Blog[]>([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         axios.get(`${BACKEND_URL}/blog/bulk`, {
@@ -46,14 +53,20 @@ export const useBlogs = () => {
             }
         })
             .then(response => {
-                console.log("blog:",response.data.blog)
+                console.log("blog:", response.data.blog)
                 setBlogs(response.data.blog);
                 setLoading(false);
+            }).catch(e => {
+                if (axios.isAxiosError(e) && e.response) {
+                    console.log(e.response.data.message);
+                    setError(e.response.data.message);
+                }
             })
     }, [])
 
     return {
         loading,
-        blogs
+        blogs,
+        error
     }
 }

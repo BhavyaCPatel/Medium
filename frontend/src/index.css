@@ -1,3 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid;
+    border-color: #000 #0000;
+    animation: l1 1s infinite;
+}
+@keyframes l1 {to{transform: rotate(.5turn)}}
+
+
+.ProseMirror {
+    padding: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    min-height: 200px;
+    border-radius: 8px;
+}
+
+.ProseMirror:focus {
+    outline: none;
+}
+
+.ProseMirror p.is-empty::before {
+    content: 'Tell your story...';
+    color: #a8a8a8;
+    font-style: italic;
+    pointer-events: none;
+    display: block;
+}
+.prose {
+    max-width: 100%;
+    line-height: 1.6;
+    font-family: "Merriweather", serif;
+}
+
+.prose h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+.prose h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+}
+
+.inline-code {
+    background-color: #f5f5f5;
+    color: #d63384;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: "Courier New", Courier, monospace;
+}
+
