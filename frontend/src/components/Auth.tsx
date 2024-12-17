@@ -26,7 +26,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                 if (type === "signin") {
                     navigate("/blogs");
                 } else {
-                    navigate("/signin");
+                    navigate("/");
                 }
             }, 1500);
         } catch (e: unknown) {
@@ -56,7 +56,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                     </div>
                     <div className="text-slate-500">
                         {type === "signin" ? "Don't have an account?" : "Already have an account?"}
-                        <Link className="pl-2 underline" to={type === "signin" ? "/signup" : "/signin"}>
+                        <Link className="pl-2 underline" to={type === "signin" ? "/signup" : "/"}>
                             {type === "signin" ? "Sign up" : "Sign in"}
                         </Link>
                     </div>

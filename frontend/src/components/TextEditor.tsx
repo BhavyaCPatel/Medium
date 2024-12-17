@@ -1,7 +1,6 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import Link from "@tiptap/extension-link";
 import Heading from "@tiptap/extension-heading";
 import { EditorToolbar } from "./EditorToolbar";
 import Code from "@tiptap/extension-code";
