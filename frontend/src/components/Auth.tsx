@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignupInputs } from "@bhavyapatel/medium-common";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Spinner } from "./Spinner";
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     const navigate = useNavigate();
@@ -93,19 +93,6 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
                     <Spinner />
                 </div>
             )}
-
-        <ToastContainer
-            position="top-right"
-            autoClose={1000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-        />
     </div>
 }
 
