@@ -28,7 +28,7 @@ export const useBlog = ({ id }: { id: string }) => {
                 setLoading(false);
             }).catch(e => {
                 if (axios.isAxiosError(e) && e.response) {
-                    console.log(e.response.data.message);
+                    console.log(e.response.data);
                     setError(e.response.data.message);
                 }
             })

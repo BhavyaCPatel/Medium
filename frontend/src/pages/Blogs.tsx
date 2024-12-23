@@ -11,8 +11,13 @@ export const Blogs = () => {
 
     useEffect(() => {
         if (error) {
-            console.log("Triggering toast for error:", error);
             toast.error(error)
+            if (error === 'You are not logged in') {
+                localStorage.removeItem('token');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            }
         }
     }, [error]);
 
